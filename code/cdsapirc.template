@@ -1,3 +1,3 @@
 url: https://cds.climate.copernicus.eu/api/v2
 key: $UID:$API_KEY
-verify: 0
+verify: 1
