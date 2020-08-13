@@ -7,3 +7,5 @@ services:
       dockerfile: Dockerfile
     env_file:
       - ./env/.jupyter.env
+      - ./env/.cdsapirc.env
+    command: /bin/bash -c "envsubst '$$API_KEY $$UID' < /home/python/code/cdsapirc.template > /home/python/.cdsapirc && jupyter notebook --config=/home/python/code/jupyter_notebook_config.py"
