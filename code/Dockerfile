@@ -22,4 +22,6 @@ RUN poetry install --no-interaction --no-root --ansi
 COPY --chown=python:python . .
 RUN poetry install --no-interaction --ansi
 
+COPY --chown=python:python cdsapirc /home/python/.cdsapirc
+
 CMD ["jupyter", "notebook", "--config=/home/python/code/jupyter_notebook_config.py"]
