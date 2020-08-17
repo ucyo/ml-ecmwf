@@ -1,11 +1,30 @@
 version: "3.8"
 
 services:
-  code:
-    build:
-      context: ./code
-      dockerfile: Dockerfile
+
+  redis:
+    image: redis:5
+    init: true
+
+  worker:
+    init: true
+    image: code
     env_file:
       - ./env/.jupyter.env
       - ./env/.cdsapirc.env
-    command: /bin/bash -c "envsubst '$$API_KEY $$UID $$VERIFY' < /home/python/code/cdsapirc.template > /home/python/.cdsapirc && jupyter notebook --config=/home/python/code/jupyter_notebook_config.py"
+    command: /bin/bash -c "wait-for-it -s -t 60 redis:6379 && envsubst '$$API_KEY $$UID $$VERIFY' < /home/python/code/cdsapirc.template > /home/python/.cdsapirc && rq worker --url redis://redis:6379"
+    depends_on:
+      - redis
+
+  code:
+    init: true
+    build:
+      context: ./code
+      dockerfile: Dockerfile
+    image: code
+    env_file:
+      - ./env/.jupyter.env
+      - ./env/.cdsapirc.env
+    command: /bin/bash -c "wait-for-it -s -t 60 redis:6379 && envsubst '$$API_KEY $$UID $$VERIFY' < /home/python/code/cdsapirc.template > /home/python/.cdsapirc && jupyter notebook --config=/home/python/code/jupyter_notebook_config.py"
+    depends_on:
+      - redis

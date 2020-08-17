@@ -6,3 +6,7 @@ services:
       - ./code:/home/python/code
     ports:
       - "8080:8080"
+
+  worker:
+    volumes:
+      - ./code:/home/python/code
