@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "code"
+name = "datarequests"
 version = "0.1.0"
 description = ""
 authors = ["Uğur Çayoğlu <cayoglu@me.com>"]
