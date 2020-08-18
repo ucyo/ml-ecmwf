@@ -13,7 +13,7 @@ req = ERA5PressureLevelsRequest(
     time = ['11:00'],
     pressure_level=[1000]
 )
-req = req.request("redis.nc")
+dreq = req.request("redis.nc")
 
 from rq import Queue
 from redis import Redis
@@ -24,8 +24,9 @@ q = Queue(connection=redis_conn)  # no args implies the default queue
 
 job = q.enqueue(get_data, 
           ttl=30,
+          description=str(req),
           kwargs={
-              "request":req,
+              "request":dreq,
           })
 
 
