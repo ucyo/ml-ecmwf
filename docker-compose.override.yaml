@@ -6,6 +6,10 @@ services:
     ports:
       - "9181:9181"
 
+  redis:
+    volumes:
+      - ./code/rstore:/data
+
   code:
     volumes:
       - ./code:/home/python/code
