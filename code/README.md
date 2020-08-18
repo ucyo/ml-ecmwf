@@ -33,3 +33,10 @@ output = './example.nc'
 # Send request
 c.retrieve(**rq.request(output))
 ```
+
+# Docker
+
+Scale individual workers
+```
+docker-compose up -d --build --scale worker=3
+```
