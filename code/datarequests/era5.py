@@ -97,8 +97,12 @@ class ERA5PressureLevelsRequest(_ECMWF):
             print(f"Changed variables list to: {self.pressure_level}")
         self.pressure_level = [str(x) for x in self.pressure_level]
     
+    @property
+    def name(self):
+        return 'reanalysis-era5-pressure-levels'
+
     def request(self, filepath):
-        return dict(name='reanalysis-era5-pressure-levels', request=self._request, target=filepath)
+        return dict(name=self.name, request=self._request, target=filepath)
 
 @dataclass
 class ERA5SingleLevelsRequest(_ECMWF):
@@ -120,5 +124,9 @@ class ERA5SingleLevelsRequest(_ECMWF):
         self.day = self._check_range(self.day, 1, 32, 'day', '{:02}')
         self.variable = self._check_membership(self.variable, variables.SINGLE_LEVELS, 'variables')
     
+    @property
+    def name(self):
+        return 'reanalysis-era5-single-levels'
+
     def request(self, filepath):
-        return dict(name='reanalysis-era5-single-levels', **self._request, target=filepath)
+        return dict(name=self.name, **self._request, target=filepath)
