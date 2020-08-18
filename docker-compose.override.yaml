@@ -1,6 +1,11 @@
 version: "3.8"
 
 services:
+
+  rq-dashboard:
+    ports:
+      - "9181:9181"
+
   code:
     volumes:
       - ./code:/home/python/code

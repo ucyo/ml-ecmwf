@@ -2,6 +2,14 @@ version: "3.8"
 
 services:
 
+  rq-dashboard:
+    image: eoranged/rq-dashboard
+    init: true
+    env_file:
+      - ./env/.rq-dashboard.env
+    depends_on:
+      - redis
+
   redis:
     image: redis:5
     init: true
@@ -28,3 +36,5 @@ services:
     command: /bin/bash -c "wait-for-it -s -t 60 redis:6379 && envsubst '$$API_KEY $$UID $$VERIFY' < /home/python/code/cdsapirc.template > /home/python/.cdsapirc && jupyter notebook --config=/home/python/code/jupyter_notebook_config.py"
     depends_on:
       - redis
+      - worker
+      - rq-dashboard
