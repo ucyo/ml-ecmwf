@@ -1,6 +1,15 @@
 from dataclasses import dataclass, field
 from . import variables
 from . import defaults
+from . import tasks
+import hashlib
+import json
+from rq import Queue, exceptions
+from rq.job import Job
+from redis import Redis
+
+REDIS_CONNECTION = Redis(host='redis')
+QUE = Queue(connection=REDIS_CONNECTION)
 
 @dataclass
 class _ECMWF:
@@ -62,7 +71,41 @@ class _ECMWF:
             
     @property
     def _request(self):
-        return {k:v for k,v in self.__dict__.items() if v is not None}    
+        return {k:v for k,v in self.__dict__.items() if v is not None}
+    
+    def request():
+        raise NotImplementedError("Not implemented for base class")
+
+    def send_request(self, output):
+        req = self.request(output)
+        if self.job_status in ("finished", "failed"):
+            print(self.job_status)
+            return self.job_status
+        job = QUE.enqueue(
+            tasks.get_data,
+            result_ttl = 31536000,  # 1 year
+            job_id = self.job_id,
+            description=output,
+            kwargs={
+                "request": req
+            }
+        )
+        print(job.get_status())
+        return job
+    
+    @property
+    def job_status(self):
+        try:
+            j = Job.fetch(self.job_id, connection=REDIS_CONNECTION)
+        except exceptions.NoSuchJobError as e:
+            return None  # Apparently job is not in queue, hence no status
+        else:
+            return j.get_status()
+
+    @property                           
+    def job_id(self):
+        return hashlib.md5(json.dumps(self._request, sort_keys=True).encode("utf-8")).hexdigest()
+
 
 @dataclass
 class ERA5PressureLevelsRequest(_ECMWF):
