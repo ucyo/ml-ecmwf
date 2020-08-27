@@ -93,6 +93,7 @@ class _ECMWF:
             job_id=self.job_id,
             description=output,
             kwargs={"request": req},
+            meta=req,
         )
         print(job.get_status())
         return job
