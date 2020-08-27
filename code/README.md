@@ -3,35 +3,32 @@ Auto-download ERA5 data from Copernicus Climate Data Store.
 
 # Setup
 
-1. Copy cdsapi env example file as env file 
+1. Copy and update env files
 ```bash
-cp ./env/cdsapirc.env.example ./env/cdsapirc.env
+cp ./env/cdsapirc.env.example ./env/.cdsapirc.env
+cp ./env/rq.env.example ./env/.rq.env
 ```
 
 2. Update `API_KEY`, `UID` and `VERIFY` from https://cds.climate.copernicus.eu/user
 
-# Example dowload request
+
+# Example
 
 ```python
-import cdsapi
 from datarequests.era5 import ERA5PressureLevelsRequest
 
-# Generate CDS request client
-c = cdsapi.Client()
-
-# Generate request
-rq = ERA5PressureLevelsRequest(
+# Request parameters
+req = ERA5PressureLevelsRequest(
     variable=['temperature'],
-    year = [1986],
+    year = [1987],
     month = [1],
     day = [17],
+    time = ['09:00'],
+    pressure_level=[800]
 )
 
-# Define download location
-output = './example.nc'
-
-# Send request
-c.retrieve(**rq.request(output))
+# Send download request to workers
+req.send_request("new_file.nc")
 ```
 
 # Docker
