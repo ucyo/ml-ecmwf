@@ -6,7 +6,6 @@ authors = ["Uğur Çayoğlu <cayoglu@me.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-jupyter = "^1.0.0"
 cdsapi = "^0.3.0"
 xarray = "^0.16.0"
 scipy = "^1.5.2"
