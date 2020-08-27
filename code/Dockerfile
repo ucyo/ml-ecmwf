@@ -23,4 +23,4 @@ RUN poetry install --no-interaction --no-root --ansi
 COPY --chown=python:python . .
 RUN poetry install --no-interaction --ansi
 
-CMD ["jupyter", "notebook", "--config=/home/python/code/jupyter_notebook_config.py"]
+CMD ["rq-dashboard"]
