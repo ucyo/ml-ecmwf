@@ -9,7 +9,10 @@ from rq.job import Job
 from redis import Redis
 
 REDIS_CONNECTION = Redis(host='redis')
-QUE = Queue(connection=REDIS_CONNECTION)
+QUE = Queue(
+    connection=REDIS_CONNECTION,
+    default_timeout = "1h",
+    )
 
 @dataclass
 class _ECMWF:
@@ -78,12 +81,13 @@ class _ECMWF:
 
     def send_request(self, output):
         req = self.request(output)
-        if self.job_status in ("finished", "failed"):
+        if self.job_status in ("finished", "failed", "queued"):
             print(self.job_status)
             return self.job_status
         job = QUE.enqueue(
             tasks.get_data,
             result_ttl = 31536000,  # 1 year
+            failure_ttl = 31536000,  # 1 year
             job_id = self.job_id,
             description=output,
             kwargs={

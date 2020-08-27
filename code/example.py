@@ -12,4 +12,4 @@ req = ERA5PressureLevelsRequest(
     pressure_level=[800]
 )
 
-req.send_request("redic.nc")
+req.send_request("/downloads/redic.nc")
