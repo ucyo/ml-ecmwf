@@ -2,6 +2,15 @@ version: "3.8"
 
 services:
 
+  rq-dashboard:
+    image: ucyo/rq-dashboard:latest
+    init: true
+    env_file:
+      - ./env/.rq.env
+    depends_on:
+      - redis
+      - worker
+
   redis:
     image: redis:5
     init: true
@@ -25,7 +34,7 @@ services:
     env_file:
       - ./env/.rq.env
       - ./env/.cdsapirc.env
-    command: /bin/bash -c "wait-for-it -s -t 60 redis:6379 && envsubst '$$API_KEY $$UID $$VERIFY' < /home/python/code/cdsapirc.template > /home/python/.cdsapirc && rq-dashboard"
+    command: /bin/bash -c "wait-for-it -s -t 60 redis:6379 && envsubst '$$API_KEY $$UID $$VERIFY' < /home/python/code/cdsapirc.template > /home/python/.cdsapirc && tail -F /dev/null"
     depends_on:
       - redis
       - worker

@@ -8,7 +8,6 @@ authors = ["Uğur Çayoğlu <cayoglu@me.com>"]
 python = "^3.8"
 cdsapi = "^0.3.0"
 rq = "^1.5.0"
-rq-dashboard = "^0.6.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^3.4"
