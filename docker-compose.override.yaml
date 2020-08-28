@@ -13,9 +13,7 @@ services:
   code:
     volumes:
       - ./code:/home/python/code
-      - ./downloads:/downloads
 
   worker:
     volumes:
       - ./code:/home/python/code
-      - ./downloads:/downloads
