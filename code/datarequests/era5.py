@@ -3,6 +3,7 @@ from . import variables
 from . import defaults
 from . import tasks
 import hashlib
+import os
 import json
 from rq import Queue, exceptions
 from rq.job import Job
@@ -82,8 +83,9 @@ class _ECMWF:
         raise NotImplementedError("Not implemented for base class")
 
     def send_request(self, output):
+        os.makedirs(os.path.dirname(output))
         req = self.request(output)
-        if self.job_status in ("finished", "failed", "queued"):
+        if self.job_status in ("finished", "failed", "queued"):  # TODO Check why it failed and reenter automatically if possible
             print(self.job_status)
             return self.job_status
         job = QUE.enqueue(
