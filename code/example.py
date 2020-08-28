@@ -2,14 +2,14 @@
 # coding: utf-8
 
 from datarequests.era5 import ERA5PressureLevelsRequest
+from datarequests.defaults import year, month
 
-req = ERA5PressureLevelsRequest(
-    variable=["temperature"],
-    year=[1986],
-    month=[1],
-    day=[17],
-    time=["11:00"],
-    pressure_level=[800],
-)
-
-req.send_request("/downloads/1986/01/redic.nc")
+for v in ["temperature"]:
+    for y in year()[:10]:
+        for m in month():        
+            req = ERA5PressureLevelsRequest(
+                variable=[v],
+                year=[y],
+                month=[m]
+            )
+            req.send_request(f"/downloads/{y}/{m}/ERA5.pl.{v}.nc")
