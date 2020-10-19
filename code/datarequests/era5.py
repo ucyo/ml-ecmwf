@@ -90,6 +90,7 @@ class _ECMWF:
             return self.job_status
         job = QUE.enqueue(
             tasks.get_data,
+            ttl=31536000,  # 1 year
             result_ttl=31536000,  # 1 year
             failure_ttl=31536000,  # 1 year
             job_id=self.job_id,
