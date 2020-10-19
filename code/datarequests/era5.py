@@ -83,7 +83,7 @@ class _ECMWF:
         raise NotImplementedError("Not implemented for base class")
 
     def send_request(self, output):
-        os.makedirs(os.path.dirname(output))
+        os.makedirs(os.path.dirname(output), exist_ok=True)
         req = self.request(output)
         if self.job_status in ("finished", "failed", "queued"):  # TODO Check why it failed and reenter automatically if possible
             print(self.job_status)

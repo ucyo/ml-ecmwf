@@ -14,10 +14,8 @@ services:
     volumes:
       - ./code:/home/python/code
       - /mnt/raid6/abcde:/abcde
-      - /abcde:/abcde_test
 
   worker:
     volumes:
       - ./code:/home/python/code
       - /mnt/raid6/abcde:/abcde
-      - /abcde:/abcde_test
