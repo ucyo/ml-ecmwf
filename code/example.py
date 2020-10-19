@@ -5,11 +5,11 @@ from datarequests.era5 import ERA5PressureLevelsRequest
 from datarequests.defaults import year, month
 
 for v in ["temperature"]:
-    for y in year()[:10]:
+    for y in ["1979"]:
         for m in month():        
             req = ERA5PressureLevelsRequest(
                 variable=[v],
                 year=[y],
                 month=[m]
             )
-            req.send_request(f"/downloads/{y}/{m}/ERA5.pl.{v}.nc")
+            req.send_request(f"/abcde/{y}/{m}/ERA5.pl.{v}.nc")
