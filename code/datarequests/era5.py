@@ -12,7 +12,7 @@ from redis import Redis
 REDIS_CONNECTION = Redis(host="redis")
 QUE = Queue(
     connection=REDIS_CONNECTION,
-    default_timeout="1h",
+    default_timeout="8760h",
 )
 
 
@@ -90,6 +90,7 @@ class _ECMWF:
             return self.job_status
         job = QUE.enqueue(
             tasks.get_data,
+            timeout=31536000,  # 1 year
             ttl=31536000,  # 1 year
             result_ttl=31536000,  # 1 year
             failure_ttl=31536000,  # 1 year
