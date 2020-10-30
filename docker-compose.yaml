@@ -21,7 +21,7 @@ services:
     env_file:
       - ./env/.rq.env
       - ./env/.cdsapirc.env
-    command: /bin/bash -c "wait-for-it -s -t 60 redis:6379 && envsubst '$$API_KEY $$UID $$VERIFY' < /code/cdsapirc.template > /root/.cdsapirc && rq worker --url redis://redis:6379"
+    command: /bin/bash -c "wait-for-it -s -t 60 redis:6379 && envsubst '$$API_KEY $$UID $$VERIFY' < /code/cdsapirc.template > $$CDSAPI_RC && rq worker --url redis://redis:6379"
     depends_on:
       - redis
 
@@ -34,7 +34,7 @@ services:
     env_file:
       - ./env/.rq.env
       - ./env/.cdsapirc.env
-    command: /bin/bash -c "wait-for-it -s -t 60 redis:6379 && envsubst '$$API_KEY $$UID $$VERIFY' < /code/cdsapirc.template > /root/.cdsapirc && tail -F /dev/null"
+    command: /bin/bash -c "wait-for-it -s -t 60 redis:6379 && envsubst '$$API_KEY $$UID $$VERIFY' < /code/cdsapirc.template > $$CDSAPI_RC && tail -F /dev/null"
     depends_on:
       - redis
       - worker

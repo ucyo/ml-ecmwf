@@ -4,7 +4,17 @@
 from datarequests.era5 import ERA5PressureLevelsRequest
 from datarequests.defaults import year, month
 
-for v in ["temperature"]:
+
+variables = [
+    "geopotential",
+    "specific_humidity",
+    "temperature",
+    "u_component_of_wind",
+    "v_component_of_wind",
+]
+
+
+for v in variables:
     for y in ["1979"]:
         for m in month():        
             req = ERA5PressureLevelsRequest(

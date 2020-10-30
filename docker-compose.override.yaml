@@ -11,11 +11,13 @@ services:
       - ./code/rstore:/data
 
   code:
+    user: "$uid:$gid"
     volumes:
       - ./code:/home/python/code
-      - /mnt/raid6/abcde:/abcde
+      - /abcde:/abcde
 
   worker:
+    user: "$uid:$gid"
     volumes:
       - ./code:/home/python/code
-      - /mnt/raid6/abcde:/abcde
+      - /abcde:/abcde
