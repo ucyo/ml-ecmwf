@@ -190,4 +190,4 @@ class ERA5SingleLevelsRequest(_ECMWF):
         return "reanalysis-era5-single-levels"
 
     def request(self, filepath):
-        return dict(name=self.name, **self._request, target=filepath)
+        return dict(name=self.name, request=self._request, target=filepath)
