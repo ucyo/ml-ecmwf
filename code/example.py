@@ -6,8 +6,8 @@ from datarequests.defaults import year, month
 from datarequests.variables import PRESSURE_LEVELS
 
 
-for v in PRESSURE_LEVELS:
-    for y in ["1979"]:
+for v in ["temperature"]:
+    for y in ["1981"]:
         for m in month():        
             req = ERA5PressureLevelsRequest(
                 variable=[v],
@@ -288,12 +288,12 @@ SINGLE_LEVELS = [
 
 
 
-for v in SINGLE_LEVELS:
-    for y in ["1979"]:
-        for m in month():        
-            req = ERA5SingleLevelsRequest(
-                variable=[v],
-                year=[y],
-                month=[m]
-            )
-            req.send_request(f"/abcde/{y}/{m}/ERA5.sl.{v}.nc")
+# for v in SINGLE_LEVELS:
+#     for y in ["1980"]:
+#         for m in month():        
+#             req = ERA5SingleLevelsRequest(
+#                 variable=[v],
+#                 year=[y],
+#                 month=[m]
+#             )
+#             req.send_request(f"/abcde/{y}/{m}/ERA5.sl.{v}.nc")

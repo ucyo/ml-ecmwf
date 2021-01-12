@@ -40,3 +40,30 @@ sudo docker-compose run code poetry add <package>
 ```
 git add code/poetry.lock code/pyproject.toml
 ```
+
+# New download
+
+To start a new download follow these steps:
+
+
+1. Stop docker-compose
+```shell
+docker-compose stop
+```
+2. Edit python script
+```shell
+vim code/example.py
+```
+3. Start worker nodes
+```shell
+uid=$(id -u) gid=$(id -g) docker-comkkkkpose up -d --build --scale worker=8
+```
+4. Enter container
+```shell
+docker exec -it ml-ecmwf_code_1 bash
+```
+5. Execute script
+```shell
+python example.py
+```
+
